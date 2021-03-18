@@ -4,7 +4,7 @@
 #
 # or
 # import find_same_files
-# find_same_files.find_same_files(root_directory, file_suffix)
+# files_with_same_content = find_same_files.find_same_files(root_directory, file_suffix)
 #
 
 import sys
