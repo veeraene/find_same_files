@@ -15,6 +15,9 @@ import filecmp
 
 def group_by_length(files_by_length, path_pattern):
     for file_name in glob.iglob(path_pattern, recursive=True):
+        if not os.path.isfile(file_name):
+            continue
+
         size = os.path.getsize(file_name)
         if size in files_by_length:
             files_by_length[size].append(file_name)
