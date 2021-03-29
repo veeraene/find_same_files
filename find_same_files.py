@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 # Finds files with the same suffix and same contents. The file suffix is case insensitive.
 # Usage: python find_same_files.py root_directory file_suffix
@@ -25,10 +26,10 @@ def group_by_length(files_by_length, path_pattern):
             files_by_length[size] = [file_name]
 
 
-def find_same_files(root_directory, file_suffix):
+def find_same_files(root_directories, file_suffix):
     files_by_length = {}
-    group_by_length(files_by_length, root_directory + '/**/*' + file_suffix.lower())
-    group_by_length(files_by_length, root_directory + '/**/*' + file_suffix.upper())
+    for dir in root_directories:
+        group_by_length(files_by_length, dir + '/**/*' + file_suffix)
 
     # List of lists of files with same length
     all_same_length_files = []
@@ -91,12 +92,15 @@ def find_same_files(root_directory, file_suffix):
 
 def main():
     if len(sys.argv) != 3:
-        raise ValueError(f'Usage: {sys.argv[0]} ROOT SUFFIX')
+        raise ValueError(f'Usage: {sys.argv[0]} DIR1 [DIR2 ...] SUFFIX')
 
-    files_with_same_content = find_same_files(sys.argv[1], sys.argv[2])
+    files_with_same_content = find_same_files(sys.argv[:-1], sys.argv[-1])
 
     print('Files with same contents:')
-    print(files_with_same_content)
+    for set in files_with_same_content:
+        for file in set:
+            print(file)
+        print("")
 
 
 if __name__  == "__main__":
